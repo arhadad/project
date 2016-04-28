@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.3">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>10</y>
+      <w>910</w>
+      <h>570</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever.util::SystemUiHiderHoneycomb
+--
+-mShowFlags: int
+-mHideFlags: int
+-mTestFlags: int
+-mVisible = true: boolean
+-mSystemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
+
+    @Override
+    public void onSystemUiVisibilityChange(int vis) {
+        if ((vis &amp; mTestFlags) != 0) {
+            if (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.JELLY_BEAN) {
+                mActivity.getActionBar().hide();
+                mActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            }
+            mOnVisibilityChangeListener.onVisibilityChange(false);
+            mVisible = false;
+        } else {
+            mAnchorView.setSystemUiVisibility(mShowFlags);
+            if (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.JELLY_BEAN) {
+                mActivity.getActionBar().show();
+                mActivity.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            }
+            mOnVisibilityChangeListener.onVisibilityChange(true);
+            mVisible = true;
+        }
+    }
+}: View.OnSystemUiVisibilityChangeListener
+--
+#SystemUiHiderHoneycomb(Activity activity, View anchorView, int flags): ctor
++setup(): void
++hide(): void
++show(): void
++isVisible(): boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>920</x>
+      <y>10</y>
+      <w>280</w>
+      <h>500</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::Client
+--
+~Name: String
+~Number: String
+~Data: String
+~SMS_Data: String
+~Monitored: int
+~SMS_Sum: int
+~Calls_Sum: int
+--
++Client(String Name, String Number): ctor
++Client(): ctor
++setMonitored(int num): void
++setName(String Name): void
++setNumber(String Number): void
++getNumber(): String
++getName(): String
++setData(String string): void
++getData(): String
++getSMSData(): String
++toString(): String
++setSMSData(String data): void
++getMonitored(): int
++printAllClientDetails(): String
++setSMS_Sum(): void
++setSMS_Sum(int num): void
++getSMS_Sum(): int
++setCalls_Sum(): void
++getCalls_Sum(): int
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1210</x>
+      <y>10</y>
+      <w>420</w>
+      <h>430</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::Main_Data
+--
+-instance = null: Main_Data
++data = new ArrayList&lt;Client&gt;(): ArrayList&lt;Client&gt;
++Monitored_Clients = new ArrayList&lt;Client&gt;(): ArrayList&lt;Client&gt;
+--
+-Main_Data(): ctor
++getInstance(): Main_Data
++setData(Client v, String phoneNumber): void
++getArrayList(): String
++getClient(String phoneNumber): Client
++getClientbyName(String Name): Client
++numinList(String phoneNumber): boolean
++numinListForSMS(String phoneNumber): boolean
++getLogging(): String
++getListNames(): ArrayList&lt;String&gt;
++getMonitoredListNames(): ArrayList&lt;String&gt;
++getContactArray(): Client[]
++isExists(Client other): boolean
++getAllMonitoredData(): String
++clearAll(): void
++printMonitored(): String
++setMonitored_Clients(ArrayList&lt;Client&gt; other): void
++getTotal_SMS(): int
++getTotal_Calls(): int
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>590</y>
+      <w>500</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>/com.example.broadcastreciever.util::SystemUiHider/
+--
++FLAG_LAYOUT_IN_SCREEN_OLDER_DEVICES = 0x1: int
++FLAG_FULLSCREEN = 0x2: int
++FLAG_HIDE_NAVIGATION = FLAG_FULLSCREEN | 0x4: int
+#mActivity: Activity
+#mAnchorView: View
+#mFlags: int
+#mOnVisibilityChangeListener = sDummyListener: OnVisibilityChangeListener
+-sDummyListener = new OnVisibilityChangeListener() {
+
+    @Override
+    public void onVisibilityChange(boolean visible) {
+    }
+}: OnVisibilityChangeListener
+--
+#SystemUiHider(Activity activity, View anchorView, int flags): ctor
++getInstance(Activity activity, View anchorView, int flags): SystemUiHider
++setup(): void
++isVisible(): boolean
++hide(): void
++show(): void
++toggle(): void
++setOnVisibilityChangeListener(OnVisibilityChangeListener listener): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>510</x>
+      <y>590</y>
+      <w>330</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::ContactManager
+--
+-mContactList: ListView
+~adapter: ArrayAdapter&lt;Client&gt;
+~button_saved_items: Button
+~button_clear_items: Button
+--
++onCreate(Bundle savedInstanceState): void
+-saveCheckedItems(): void
++findRemoveIndex(String number): int
++save_checked(View v): void
++clear_checked(View v): void
+-loadCheckedItems(): void
+-populateContactListOnly(): void
+-populateContactList(): void
+-getContacts(): Cursor
++getContactPhones(): void
++CheckIfExists(Client temp): boolean
++handleNumber(String phoneNumber): String
+-char_is_between(char c): boolean
++populateContactList2(): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>850</x>
+      <y>590</y>
+      <w>300</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::MainActivity
+--
+~button_exit: Button
+~button_send: Button
+~button_track: Button
+~button_open_log: Button
+~button_open_sql: Button
+~load_first: SQLITE_DB
+--
+#onCreate(Bundle savedInstanceState): void
+-loadDB(): void
++onCreateOptionsMenu(Menu menu): boolean
++exit(View v): void
+#onResume(): void
++track_contacts(View v): void
++open_log(View v): void
++open_sqlite(View v): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1160</x>
+      <y>590</y>
+      <w>290</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::Open_Log
+--
+~button_set_choice: Button
+~button_calls_output: Button
+~button_sms_output: Button
+~button_send_mail: Button
+~spinner: Spinner
+~adapter: ArrayAdapter&lt;String&gt;
+~selected: String
+--
+#onCreate(Bundle savedInstanceState): void
+-populateSpinner(): void
++set_choice(View v): void
++monitor_all(View v): void
++calls_output(View v): void
++sms_output(View v): void
++send_mail(View v): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1460</x>
+      <y>590</y>
+      <w>450</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::SQLITE_DB
+--
+-instance: SQLITE_DB
+-DATABASE: SQLiteDatabase
+-DB_NAME = "CLIENTS_DB": String
+--
++SQLITE_DB(Context context): ctor
++onCreate(SQLiteDatabase db): void
++onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion): void
++updateTable(): void
+-insertMonitored_Clients(): void
++readDB(): ArrayList&lt;Client&gt;
++clear_db(): void
++getDATABASE(): SQLiteDatabase
++setDATABASE(SQLiteDatabase dATABASE): void
++getSQLITEOB(): SQLITE_DB
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>1000</y>
+      <w>300</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::SQLITE
+--
+~db = MainActivity.load_first: SQLITE_DB
+~button_write_sql: Button
+~button_clear_db: Button
+--
+#onCreate(Bundle savedInstanceState): void
++onCreateOptionsMenu(Menu menu): boolean
++write_sql(View v): void
++read_sql(View v): void
++clear_db(View v): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>310</x>
+      <y>1000</y>
+      <w>450</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever.util::SystemUiHiderBase
+--
+-mVisible = true: boolean
+--
+#SystemUiHiderBase(Activity activity, View anchorView, int flags): ctor
++setup(): void
++isVisible(): boolean
++hide(): void
++show(): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>770</x>
+      <y>1000</y>
+      <w>300</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::Calls_Output
+--
+~tv_display: TextView
+--
+#onCreate(Bundle savedInstanceState): void
+-displayCalls(): void
++onCreateOptionsMenu(Menu menu): boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1080</x>
+      <y>1000</y>
+      <w>340</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::MonitorAll_Output
+--
+~tv_display_all_monitored: TextView
+--
+#onCreate(Bundle savedInstanceState): void
+-displayAll(): void
++onCreateOptionsMenu(Menu menu): boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1430</x>
+      <y>1000</y>
+      <w>300</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::SMS_Output
+--
+~tv_SMS_display: TextView
+--
+#onCreate(Bundle savedInstanceState): void
+-displaySMS(): void
++onCreateOptionsMenu(Menu menu): boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>1200</y>
+      <w>310</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::MyReceiver
+--
+~psl: MyPhoneStateListener
+~tm: TelephonyManager
+--
++onReceive(Context context, Intent intent): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>320</x>
+      <y>1200</y>
+      <w>320</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::SMS_Receiver
+--
+--
++onReceive(Context context, Intent intent): void
+-handleSMSNumber(String phoneNumber): String
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>650</x>
+      <y>1200</y>
+      <w>400</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::MyPhoneStateListener
+--
+--
++onCallStateChanged(int state, String incomingNumber): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1060</x>
+      <y>1200</y>
+      <w>300</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>com.example.broadcastreciever::Statistics
+--
+--
+#onCreate(Bundle savedInstanceState): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
